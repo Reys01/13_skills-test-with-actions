@@ -1,0 +1,39 @@
+# Este es un flujo de trabajo básico para ayudarle a empezar con las Acciones
+
+name: CI
+
+# Controla cuándo se ejecutará el flujo de trabajo
+on:
+  # Activa el flujo de trabajo en eventos push o pull request pero sólo para la rama "main"
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Permite ejecutar este flujo de trabajo manualmente desde la pestaña Acciones
+  workflow_dispatch:
+
+# Una ejecución de flujo de trabajo se compone de uno o más trabajos que pueden 
+# ejecutarse secuencialmente o en paralelo
+jobs:
+  # Este flujo de trabajo contiene un único trabajo llamado "build"
+  build:
+    # El tipo de runner en el que se ejecutará el trabajo
+    runs-on: ubuntu-latest
+
+    # Los pasos representan una secuencia de tareas que se ejecutarán como parte del trabajo
+    steps:
+      # Comprueba tu repositorio en $GITHUB_WORKSPACE, para que tu trabajo pueda acceder a él
+      - uses: actions/checkout@v3
+
+      # Ejecuta un conjunto de comandos usando el shell runners
+      - name: Run markdown lint
+        run: |
+          npm install remark-cli remark-preset-lint-consistent
+          npx remark . --use remark-preset-lint-consistent --frail
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: remark-lint-report
+          path: public/
+          
