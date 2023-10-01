@@ -24,7 +24,7 @@ jobs:
     # Los pasos representan una secuencia de tareas que se ejecutarán como parte del trabajo
     steps:
       # Comprueba tu repositorio en $GITHUB_WORKSPACE, para que tu trabajo pueda acceder a él
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Ejecuta un conjunto de comandos usando el shell runners
       - name: Run markdown lint
